@@ -1,0 +1,8 @@
+{
+  "name": "seaweed",
+  "app_id": "961784d8",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
