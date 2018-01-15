@@ -1,3 +1,52 @@
-page-home {
+page-home.ion-page {
+  ion-content.content {
+    background-color: color($colors, dark);
+    color: white;
 
+    .scroll-content {
+      display: flex;
+      justify-content: center;
+
+      .content-wrapper {
+        max-width: 600px;
+
+        p.instructions {
+          font-size: 18px;
+
+          button {
+            margin: 0 10px 10px -5px;
+            height: 40px;
+            width: 40px;
+
+            ion-icon {
+              font-size: 24px;
+            }
+          }
+        }
+
+        ion-item.phrase {
+          .item-inner {
+            border-bottom: none;
+          }
+        }
+
+        ion-list.word-counts {
+          margin-top: 25px;
+
+          ion-item {
+            background-color: color($colors, dark);
+            color: white;
+
+            ion-select {
+              max-width: initial;
+            }
+          }
+        }
+
+        .error {
+          color: color($colors, danger);
+        }
+      }
+    }
+  }
 }
