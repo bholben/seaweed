@@ -1,9 +1,9 @@
 {
   "name": "seaweed",
+  "description": "A seed word generator",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
-  "private": true,
+  "author": "bholben@gmail.com",
+  "homepage": "https://github.com/bholben",
   "scripts": {
     "start": "npm run ionic:serve",
     "clean": "ionic-app-scripts clean",
@@ -37,6 +37,5 @@
   "devDependencies": {
     "@ionic/app-scripts": "3.1.6",
     "typescript": "2.4.2"
-  },
-  "description": "An Ionic project"
+  }
 }
