@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding [ngClass]="{'not-mobile': !isMobile}">
 
   <div class="content-wrapper">
 
@@ -38,9 +38,7 @@
       </ion-item>
     </ion-list>
 
-    <button ion-button block margin-top (click)="clickGenerate()">Generate Seed Words</button>
-
-    <div *ngIf="isEmptyError" class="error" margin-top>You need to enter a phrase first</div>
+    <button [disabled]="!phrase" ion-button block margin-top (click)="clickGenerate()">Generate Seed Words</button>
 
     <div *ngIf="mnemonic" class="mnemonic">
       <h1>

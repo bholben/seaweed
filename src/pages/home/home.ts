@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { PopoverController, ToastController } from 'ionic-angular';
-import * as jssha from 'jssha';
-import { entropyToMnemonic } from 'bip39';
+import { Platform, PopoverController, ToastController } from 'ionic-angular';
 
+import { CryptoService } from '../../services/crypto.service';
 import { PhraseInfoPopover } from '../phrase-info-popover/phrase-info-popover';
 
 @Component({
@@ -15,17 +14,18 @@ export class HomePage {
   wordCount = 24;
   generated: string;
   mnemonic: string;
-  isEmptyError = false;
-
-  isCopied = false;
+  isMobile = false;
 
   constructor(
+    private platform: Platform,
     private popoverCtrl: PopoverController,
     private toastCtrl: ToastController,
+    private cryptoSvc: CryptoService,
   ) {}
 
   ngOnInit() {
     console.log(this);
+    this.isMobile = this.platform.is('mobile');
   }
 
   clickPhraseQuestion(ev) {
@@ -36,10 +36,7 @@ export class HomePage {
     this.mnemonic = '';
     if (this.phrase) {
       this.generated = this.generator;
-      this.buildMnemonic(this.phrase, +this.wordCount);
-      this.isEmptyError = false;
-    } else {
-      this.isEmptyError = true;
+      this.mnemonic = this.cryptoSvc.getBip39Mnemonic(this.phrase, +this.wordCount);
     }
   }
 
@@ -49,18 +46,6 @@ export class HomePage {
       duration: 2500,
       cssClass: 'seed-toast',
     }).present();
-  }
-
-  private buildMnemonic(phrase: string, wordCount: number) {
-    const hashLength = 8 * wordCount / 3;
-    const shaObj = new jssha('SHA-256', 'TEXT');
-    shaObj.update(phrase);
-    const hash = shaObj.getHash('HEX').substr(0, hashLength);
-    this.mnemonic = entropyToMnemonic(hash);
-
-    console.log({phrase});
-    console.log({hash});
-    console.log({mnemonic: this.mnemonic});
   }
 
 }

@@ -6,9 +6,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { ClipboardModule } from 'ngx-clipboard';
 
 import { MyApp } from './app.component';
+import { CryptoService } from '../services/crypto.service';
 import { HomePage } from '../pages/home/home';
 import { PhraseInfoPopover } from '../pages/phrase-info-popover/phrase-info-popover';
-import { ClipboardDirective } from 'ngx-clipboard/src';
 
 @NgModule({
   imports: [
@@ -20,6 +20,7 @@ import { ClipboardDirective } from 'ngx-clipboard/src';
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
+    CryptoService,
   ],
   declarations: [
     MyApp,
