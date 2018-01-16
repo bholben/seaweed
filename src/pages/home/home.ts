@@ -38,20 +38,15 @@ export class HomePage {
       this.generated = this.generator;
       this.buildMnemonic(this.phrase, +this.wordCount);
       this.isEmptyError = false;
-      // this.phrase = '';
     } else {
       this.isEmptyError = true;
     }
   }
 
   clickClipboard(event) {
-    console.log('TODO: Implement clipboard copy', event);
-
-    // document.execCommand("copy");
-
     this.toastCtrl.create({
       message: 'Seed words copied to clipboard',
-      duration: 5000,
+      duration: 2500,
       cssClass: 'seed-toast',
     }).present();
   }
