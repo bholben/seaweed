@@ -10,54 +10,50 @@
 
     <div padding>
       <ion-segment [(ngModel)]="generator">
-        <ion-segment-button value="single">
-          Single
-        </ion-segment-button>
-        <ion-segment-button value="double">
-          Double
-        </ion-segment-button>
+        <ion-segment-button value="BIP39">BIP39</ion-segment-button>
+        <ion-segment-button value="Electrum">Electrum</ion-segment-button>
       </ion-segment>
     </div>
 
-    <div *ngIf="generator === 'single'" >
-      <p class="instructions">
-        Create a phrase you can commit to long-term memory.
-        <button ion-button color="dark" (click)="clickPhraseQuestion($event)">
-          <ion-icon name="help-circle"></ion-icon>
-        </button>
-      </p>
+    <p class="instructions">
+      Create a phrase you can commit to long-term memory.
+      <button ion-button color="dark" (click)="clickPhraseQuestion($event)">
+        <ion-icon name="help-circle"></ion-icon>
+      </button>
+    </p>
 
-      <ion-item class="phrase">
-        <ion-label stacked>Enter Phrase:</ion-label>
-        <ion-textarea type="text" name="phrase" [(ngModel)]="phrase"></ion-textarea>
+    <ion-item class="phrase">
+      <ion-label stacked color="primary">Enter Phrase:</ion-label>
+      <ion-textarea type="text" name="phrase" [(ngModel)]="phrase"></ion-textarea>
+    </ion-item>
+
+    <ion-list class="word-counts">
+      <ion-item>
+        <ion-label>Security level</ion-label>
+        <ion-select [(ngModel)]="wordCount" interface="popover">
+          <ion-option value="12">Good (12 words)</ion-option>
+          <ion-option value="18">Better (18 words)</ion-option>
+          <ion-option value="24">Best (24 words)</ion-option>
+        </ion-select>
       </ion-item>
+    </ion-list>
 
-      <ion-list class="word-counts">
-        <ion-item>
-          <ion-label>Security level</ion-label>
-          <ion-select [(ngModel)]="wordCount" interface="popover">
-            <ion-option value="12">Good (12 words)</ion-option>
-            <ion-option value="18">Better (18 words)</ion-option>
-            <ion-option value="24">Best (24 words)</ion-option>
-          </ion-select>
-        </ion-item>
-      </ion-list>
+    <button ion-button block margin-top (click)="clickGenerate()">Generate Seed Words</button>
 
-      <button ion-button block margin-top (click)="clickSubmit()">Generate now!</button>
+    <div *ngIf="isEmptyError" class="error" margin-top>You need to enter a phrase first</div>
 
-      <div *ngIf="isEmptyError" class="error" margin-top>Create a phrase before submitting</div>
+    <div *ngIf="mnemonic" class="mnemonic">
+      <h1>
+        <div>{{generated}} Seed Words</div>
 
-      <ng-container *ngIf="mnemonic">
-        <h1>Result</h1>
-        <p class="results">{{mnemonic}}</p>
-        <div *ngFor="let group of groups">{{group}}</div>
-      </ng-container>
-    </div>
+        <!-- This element is never shown - but needed for clipboard feature -->
+        <ion-input hidden type="text" name="mnemonic" [(ngModel)]="mnemonic"></ion-input>
 
-    <div *ngIf="generator === 'double'" >
-      <p>
-        TODO: Do the same thing, but ask for 2 phrases to be entered.  Show them as *** so users cannot see each other's phrases.
-      </p>
+        <button ion-button color="dark" ngxClipboard [cbContent]="mnemonic" (cbOnSuccess)="clickClipboard($event)">
+          <ion-icon name="clipboard" color="primary"></ion-icon>
+        </button>
+      </h1>
+      <p class="results">{{mnemonic}}</p>
     </div>
 
   </div>

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { PopoverController } from 'ionic-angular';
-import * as jsSha from 'jssha';
-import * as bip39 from 'bip39';
+import { PopoverController, ToastController } from 'ionic-angular';
+import * as jssha from 'jssha';
+import { entropyToMnemonic } from 'bip39';
 
 import { PhraseInfoPopover } from '../phrase-info-popover/phrase-info-popover';
 
@@ -10,14 +10,18 @@ import { PhraseInfoPopover } from '../phrase-info-popover/phrase-info-popover';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  generator = 'single';
+  generator = 'BIP39';
   phrase: string;
   wordCount = 24;
+  generated: string;
   mnemonic: string;
   isEmptyError = false;
 
+  isCopied = false;
+
   constructor(
     private popoverCtrl: PopoverController,
+    private toastCtrl: ToastController,
   ) {}
 
   ngOnInit() {
@@ -28,18 +32,40 @@ export class HomePage {
     this.popoverCtrl.create(PhraseInfoPopover).present({ ev });
   }
 
-  clickSubmit() {
-    this.toMnemonic(this.phrase, +this.wordCount);
+  clickGenerate() {
+    this.mnemonic = '';
+    if (this.phrase) {
+      this.generated = this.generator;
+      this.buildMnemonic(this.phrase, +this.wordCount);
+      this.isEmptyError = false;
+      // this.phrase = '';
+    } else {
+      this.isEmptyError = true;
+    }
   }
 
-  private toMnemonic(phrase: string, wordCount: number) {
-    if (!phrase) return this.isEmptyError = true;
+  clickClipboard(event) {
+    console.log('TODO: Implement clipboard copy', event);
 
+    // document.execCommand("copy");
+
+    this.toastCtrl.create({
+      message: 'Seed words copied to clipboard',
+      duration: 5000,
+      cssClass: 'seed-toast',
+    }).present();
+  }
+
+  private buildMnemonic(phrase: string, wordCount: number) {
     const hashLength = 8 * wordCount / 3;
-    let shaObj = new jsSha('SHA-256', 'TEXT');
-    shaObj.update(phrase + '\n');
-    const x = shaObj.getHash('HEX').substr(0, hashLength);
-    this.mnemonic = bip39.entropyToMnemonic(x);
+    const shaObj = new jssha('SHA-256', 'TEXT');
+    shaObj.update(phrase);
+    const hash = shaObj.getHash('HEX').substr(0, hashLength);
+    this.mnemonic = entropyToMnemonic(hash);
+
+    console.log({phrase});
+    console.log({hash});
+    console.log({mnemonic: this.mnemonic});
   }
 
 }
