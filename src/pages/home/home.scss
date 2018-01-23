@@ -7,60 +7,64 @@ page-home.ion-page {
       display: flex;
       justify-content: center;
 
-      p.instructions {
-        font-size: 18px;
+      .content-wrapper {
+        max-width: 100%;
 
-        button {
-          margin: 0 10px 10px -5px;
-          height: 40px;
-          width: 40px;
-
-          ion-icon {
-            font-size: 24px;
-          }
-        }
-      }
-
-      ion-item.phrase {
-        .item-inner {
-          border-bottom: none;
-
-          ion-label {
-            font-size: 18px;
-          }
-        }
-      }
-
-      ion-list.word-counts {
-        margin-top: 25px;
-
-        ion-item {
-          background-color: color($colors, dark);
-          color: color($colors, primary);
-
-          ion-select {
-            max-width: initial;
-          }
-        }
-      }
-
-      .error {
-        color: color($colors, danger);
-      }
-
-      .mnemonic {
-        margin-bottom: 30px;
-
-        h1 {
-          display: flex;
-          justify-content: space-between;
-          margin-top: 20px;
+        p.instructions {
+          font-size: 18px;
 
           button {
-            height: initial;
-            margin: 0;
-            padding: 0 0 0 20px;
-            font-size: 32px;
+            margin: 0 10px 10px -5px;
+            height: 40px;
+            width: 40px;
+
+            ion-icon {
+              font-size: 24px;
+            }
+          }
+        }
+
+        ion-item.phrase {
+          .item-inner {
+            border-bottom: none;
+
+            ion-label {
+              font-size: 18px;
+            }
+          }
+        }
+
+        ion-list.word-counts {
+          margin-top: 25px;
+
+          ion-item {
+            background-color: color($colors, dark);
+            color: color($colors, primary);
+
+            ion-select {
+              max-width: initial;
+            }
+          }
+        }
+
+        .error {
+          color: color($colors, danger);
+        }
+
+        .mnemonic {
+          margin-bottom: 30px;
+
+          h1 {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+
+            button {
+              height: initial;
+              margin: 0;
+              padding: 0 0 0 20px;
+              font-size: 32px;
+            }
           }
         }
       }

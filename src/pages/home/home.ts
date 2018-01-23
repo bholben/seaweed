@@ -12,6 +12,7 @@ export class HomePage {
   generator = 'BIP39';
   phrase: string;
   wordCount = 24;
+  passphrase: string = '123';
   generated: string;
   mnemonic: string;
   isMobile = false;
@@ -36,7 +37,13 @@ export class HomePage {
     this.mnemonic = '';
     if (this.phrase) {
       this.generated = this.generator;
-      this.mnemonic = this.cryptoSvc.getBip39Mnemonic(this.phrase, +this.wordCount);
+      const bip39Mnemonic = this.cryptoSvc.getBip39Mnemonic(this.phrase, +this.wordCount);
+      if (this.generated === 'BIP39') {
+        this.mnemonic = bip39Mnemonic;
+      }
+      if (this.generated === 'Electrum') {
+        this.mnemonic = this.cryptoSvc.getMonero(bip39Mnemonic, this.passphrase);
+      }
     }
   }
 
