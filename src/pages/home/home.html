@@ -5,55 +5,91 @@
 </ion-header>
 
 <ion-content padding [ngClass]="{'not-mobile': !isMobile}">
+  <div class="desktop-width">
 
-  <div class="content-wrapper">
-
-    <div padding>
-      <ion-segment [(ngModel)]="generator">
-        <ion-segment-button value="BIP39">BIP39</ion-segment-button>
-        <ion-segment-button value="Electrum">Electrum</ion-segment-button>
-      </ion-segment>
-    </div>
-
-    <p class="instructions">
+    <ion-item text-wrap class="instructions">
       Create a phrase you can commit to long-term memory.
-      <button ion-button color="dark" (click)="clickPhraseQuestion($event)">
+      <button ion-button color="dark" (click)="clickPhraseDetails()">
         <ion-icon name="help-circle"></ion-icon>
       </button>
-    </p>
-
-    <ion-item class="phrase">
-      <ion-label stacked color="primary">Enter Phrase:</ion-label>
-      <ion-textarea type="text" name="phrase" [(ngModel)]="phrase"></ion-textarea>
     </ion-item>
 
-    <ion-list class="word-counts">
-      <ion-item>
-        <ion-label>Security level</ion-label>
-        <ion-select [(ngModel)]="wordCount" interface="popover">
-          <ion-option value="12">Good (12 words)</ion-option>
-          <ion-option value="18">Better (18 words)</ion-option>
-          <ion-option value="24">Best (24 words)</ion-option>
-        </ion-select>
-      </ion-item>
-    </ion-list>
+    <ion-item>
+      <ion-label stacked color="primary">Enter Phrase</ion-label>
+      <ion-textarea
+        type="text"
+        name="phrase"
+        [(ngModel)]="model.phrase"
+        (ionChange)="changeModel()"
+        >
+      </ion-textarea>
+    </ion-item>
 
-    <button [disabled]="!phrase" ion-button block margin-top (click)="clickGenerate()">Generate Seed Words</button>
+    <ion-item class="segment-label">
+      <ion-label color="primary">Choose Network Algorithm</ion-label>
+    </ion-item>
 
-    <div *ngIf="mnemonic" class="mnemonic">
-      <h1>
-        <div>{{generated}} Seed Words</div>
+    <ion-item class="segment">
+      <ion-segment [(ngModel)]="model.bip" (ionChange)="changeModel()">
+        <ion-segment-button value="BIP39">BIP39</ion-segment-button>
+        <ion-segment-button value="BIP32">BIP32 (Electrum)</ion-segment-button>
+      </ion-segment>
+    </ion-item>
 
-        <!-- This element is never shown - but needed for clipboard feature -->
-        <ion-input hidden type="text" name="mnemonic" [(ngModel)]="mnemonic"></ion-input>
+    <ion-item *ngIf="model.bip === 'BIP39'">
+      <ion-label stacked color="primary">Choose Security level</ion-label>
+      <ion-select
+        interface="popover"
+        [(ngModel)]="model.wordCount"
+        (ionChange)="changeModel()"
+        >
+        <ion-option value="12">Good (12 words)</ion-option>
+        <ion-option value="18">Better (18 words)</ion-option>
+        <ion-option value="24">Best (24 words)</ion-option>
+      </ion-select>
+    </ion-item>
 
-        <button ion-button color="dark" ngxClipboard [cbContent]="mnemonic" (cbOnSuccess)="clickClipboard($event)">
-          <ion-icon name="clipboard" color="primary"></ion-icon>
-        </button>
-      </h1>
-      <p class="results">{{mnemonic}}</p>
-    </div>
+    <ion-item *ngIf="model.bip === 'BIP32'">
+      <ion-label stacked color="primary">Enter Passphrase
+        <span class="alternate-universe">ALTERNATE UNIVERSE</span>
+      </ion-label>
+      <ion-textarea
+        type="text"
+        name="passphrase"
+        [(ngModel)]="model.passphrase"
+        (ionChange)="changeModel()"
+        >
+      </ion-textarea>
+    </ion-item>
 
   </div>
-
 </ion-content>
+
+<ion-footer *ngIf="bip39Mnemonic" padding [ngClass]="{'not-mobile': !isMobile}">
+  <div class="desktop-width">
+    <h1>
+      <div>Seed Words</div>
+
+      <!-- This element is never shown - but needed for clipboard feature -->
+      <ion-input
+        hidden
+        type="text"
+        name="mnemonic"
+        [(ngModel)]="model.bip === 'BIP39' ? bip39Mnemonic : bip32Mnemonic"
+        >
+      </ion-input>
+
+      <button
+        ion-button
+        color="footer"
+        ngxClipboard
+        [cbContent]="model.bip === 'BIP39' ? bip39Mnemonic : bip32Mnemonic"
+        (cbOnSuccess)="clickClipboard($event)"
+        >
+        <ion-icon name="clipboard" color="primary"></ion-icon>
+      </button>
+    </h1>
+    <p class="results">{{model.bip === 'BIP39' ? bip39Mnemonic : bip32Mnemonic}}</p>
+  </div>
+</ion-footer>
+

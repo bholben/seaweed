@@ -7,66 +7,94 @@ page-home.ion-page {
       display: flex;
       justify-content: center;
 
-      .content-wrapper {
-        max-width: 100%;
+      ion-item {
+        &:last-of-type {
+          margin-bottom: 20px;
+        }
 
-        p.instructions {
-          font-size: 18px;
+        .item-inner {
+          border-bottom: none;
 
-          button {
-            margin: 0 10px 10px -5px;
-            height: 40px;
-            width: 40px;
-
-            ion-icon {
-              font-size: 24px;
-            }
+          ion-label {
+            margin-bottom: 5px;
+            font-size: 18px;
           }
         }
 
-        ion-item.phrase {
-          .item-inner {
-            border-bottom: none;
-
-            ion-label {
-              font-size: 18px;
-            }
-          }
-        }
-
-        ion-list.word-counts {
-          margin-top: 25px;
-
-          ion-item {
-            background-color: color($colors, dark);
-            color: color($colors, primary);
-
-            ion-select {
-              max-width: initial;
-            }
-          }
-        }
-
-        .error {
-          color: color($colors, danger);
-        }
-
-        .mnemonic {
-          margin-bottom: 30px;
-
-          h1 {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
+        &.instructions {
+          ion-label {
+            margin: 0;
 
             button {
-              height: initial;
-              margin: 0;
-              padding: 0 0 0 20px;
-              font-size: 32px;
+              margin: 0 10px 10px -5px;
+              height: 40px;
+              width: 40px;
+
+              ion-icon {
+                font-size: 24px;
+              }
             }
           }
         }
+
+        &.segment-label {
+          ion-label {
+            margin-bottom: 0;
+          }
+        }
+
+        &.segment {
+          ion-label {
+          margin-top: 0;
+          }
+
+          .segment-ios, .segment-md {
+            .segment-button {
+              border-style: solid;
+              border-color: white;
+              color: white;
+
+              &.segment-activated {
+                background-color: white;
+                color: black;
+              }
+            }
+          }
+
+          .segment-md .segment-button {
+            border-width: 2px;
+          }
+        }
+
+        ion-label .alternate-universe {
+          margin-left: 10px;
+          color: #888;
+          font-size: 12px;
+          font-weight: 600;
+        }
+      }
+
+      .error {
+        color: color($colors, danger);
+      }
+    }
+  }
+
+  ion-footer {
+    height: 150px;
+    background-color: color($colors, footer);
+    color: white;
+
+    h1 {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+
+      button {
+        height: initial;
+        margin: 0;
+        padding: 0 0 0 20px;
+        font-size: 32px;
       }
     }
   }
@@ -82,6 +110,11 @@ ion-toast.seed-toast {
   }
 }
 
-ion-content.content.not-mobile .content-wrapper {
+.desktop-width {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+ion-content.content.not-mobile .desktop-width {
   width: 600px;
 }

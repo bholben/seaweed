@@ -3,7 +3,7 @@
 }
 
 .item {
-  background-color: black;
+  background-color: color($colors, dark);
   color: white;
 }
 
@@ -14,5 +14,25 @@
 
   .popover-content {
     border-radius: 0;
+
+    ion-item {
+      background-color: black;
+    }
   }
+}
+
+ion-textarea, ion-select {
+  background-color: black;
+  padding: 0 10px;
+}
+
+.item-md.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) {
+  .item-inner,
+  .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner {
+    box-shadow: none;
+  }
+}
+
+.item-label-stacked .select {
+  padding-left: 10px;
 }

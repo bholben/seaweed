@@ -14,7 +14,7 @@ import { PhraseInfoPopover } from '../pages/phrase-info-popover/phrase-info-popo
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    ClipboardModule,
+    ClipboardModule,  // ngxClipboard, [cbContent], (cbOnSuccess) directives
   ],
   providers: [
     StatusBar,
