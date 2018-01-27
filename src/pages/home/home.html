@@ -9,7 +9,7 @@
 
     <ion-item text-wrap class="instructions">
       Create a phrase you can commit to long-term memory.
-      <button ion-button color="dark" (click)="clickPhraseDetails()">
+      <button ion-button color="dark" (click)="clickPhraseInfo()">
         <ion-icon name="help-circle"></ion-icon>
       </button>
     </ion-item>
@@ -20,7 +20,7 @@
         type="text"
         name="phrase"
         [(ngModel)]="model.phrase"
-        (ionChange)="changeModel()"
+        (ionChange)="changeForm()"
         >
       </ion-textarea>
     </ion-item>
@@ -30,7 +30,7 @@
     </ion-item>
 
     <ion-item class="segment">
-      <ion-segment [(ngModel)]="model.bip" (ionChange)="changeModel()">
+      <ion-segment [(ngModel)]="model.bip" (ionChange)="changeForm()">
         <ion-segment-button value="BIP39">BIP39</ion-segment-button>
         <ion-segment-button value="BIP32">BIP32 (Electrum)</ion-segment-button>
       </ion-segment>
@@ -41,7 +41,7 @@
       <ion-select
         interface="popover"
         [(ngModel)]="model.wordCount"
-        (ionChange)="changeModel()"
+        (ionChange)="changeForm()"
         >
         <ion-option value="12">Good (12 words)</ion-option>
         <ion-option value="18">Better (18 words)</ion-option>
@@ -50,14 +50,14 @@
     </ion-item>
 
     <ion-item *ngIf="model.bip === 'BIP32'">
-      <ion-label stacked color="primary">Enter Passphrase
+      <ion-label stacked color="primary">Optional Phrase
         <span class="alternate-universe">ALTERNATE UNIVERSE</span>
       </ion-label>
       <ion-textarea
         type="text"
         name="passphrase"
         [(ngModel)]="model.passphrase"
-        (ionChange)="changeModel()"
+        (ionChange)="changeForm()"
         >
       </ion-textarea>
     </ion-item>

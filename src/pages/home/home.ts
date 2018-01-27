@@ -10,19 +10,18 @@ import { PhraseInfoPopover } from '../phrase-info-popover/phrase-info-popover';
 })
 export class HomePage {
   model = {
-    // phrase: 'Congrats with your success!',
     // phrase: 'AN_unsafe^MONER0$brainWALLET',
+    // passphrase: '123',
     phrase: '',
     bip: 'BIP39',
     wordCount: 24,
-    // passphrase: '123',
     passphrase: '',
   };
   bip39Mnemonic: string;
   bip32Mnemonic: string;
   mnemonic: string;
   isMobile = false;
-  clickPhraseDetails = () => this.popoverCtrl.create(PhraseInfoPopover).present();
+  clickPhraseInfo = () => this.popoverCtrl.create(PhraseInfoPopover).present();
 
   constructor(
     private platform: Platform,
@@ -32,16 +31,15 @@ export class HomePage {
   ) {}
 
   ngOnInit() {
-    console.log(this);
     this.isMobile = this.platform.is('mobile');
-    this.changeModel();
+    this.changeForm();
   }
 
-  changeModel() {
+  changeForm() {
     this.bip39Mnemonic = '';
     if (this.model.phrase) {
-      this.bip39Mnemonic = this.cryptoSvc.getBip39Mnemonic(this.model.phrase, +this.model.wordCount);
-      this.bip32Mnemonic = this.cryptoSvc.getMonero(this.bip39Mnemonic, this.model.passphrase);
+      this.bip39Mnemonic = this.cryptoSvc.buildBip39Mnemonic(this.model.phrase, +this.model.wordCount);
+      this.bip32Mnemonic = this.cryptoSvc.buildBip32(this.bip39Mnemonic, this.model.passphrase);
     }
   }
 
