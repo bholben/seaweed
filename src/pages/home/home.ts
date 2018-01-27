@@ -16,6 +16,7 @@ export class HomePage {
     bip: 'BIP39',
     wordCount: 24,
     passphrase: '',
+    accountNumber: '',
   };
   bip39Mnemonic: string;
   bip32Mnemonic: string;
@@ -39,7 +40,7 @@ export class HomePage {
     this.bip39Mnemonic = '';
     if (this.model.phrase) {
       this.bip39Mnemonic = this.cryptoSvc.buildBip39Mnemonic(this.model.phrase, +this.model.wordCount);
-      this.bip32Mnemonic = this.cryptoSvc.buildBip32(this.bip39Mnemonic, this.model.passphrase);
+      this.bip32Mnemonic = this.cryptoSvc.buildBip32(this.bip39Mnemonic, this.model.passphrase, +this.model.accountNumber);
     }
   }
 

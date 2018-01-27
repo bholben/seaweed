@@ -62,6 +62,17 @@
       </ion-textarea>
     </ion-item>
 
+    <ion-item *ngIf="model.bip === 'BIP32'">
+      <ion-label stacked color="primary">Optional Account Number</ion-label>
+      <ion-input
+        type="number"
+        name="accountNumber"
+        [(ngModel)]="model.accountNumber"
+        (ionChange)="changeForm()"
+        >
+      </ion-input>
+    </ion-item>
+
   </div>
 </ion-content>
 

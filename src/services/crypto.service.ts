@@ -21,8 +21,10 @@ import * as base58check from 'base58check';
   buildBip32(
     mnemonic: string,
     passphrase: string = '',
-    derivation: string = "m/44'/128'/0'"
+    accountNumber: number,
   ): any {
+    accountNumber = accountNumber || 0;
+    const derivation = `m/44'/128'/${accountNumber}'`;
     const seedHex = mnemonicToSeedHex(mnemonic, passphrase);
     const root = bitcoin.HDNode.fromSeedHex(seedHex);
     // const privateKeyHd = root.derivePath(derivation).toBase58();
