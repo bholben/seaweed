@@ -19,7 +19,7 @@
       <ion-textarea
         type="text"
         name="phrase"
-        [(ngModel)]="model.phrase"
+        [(ngModel)]="input.phrase"
         (ionChange)="changeForm()"
         >
       </ion-textarea>
@@ -30,17 +30,17 @@
     </ion-item>
 
     <ion-item class="segment">
-      <ion-segment [(ngModel)]="model.bip" (ionChange)="changeForm()">
+      <ion-segment [(ngModel)]="input.segment" (ionChange)="changeForm()">
         <ion-segment-button value="BIP39">BIP39</ion-segment-button>
         <ion-segment-button value="BIP32">BIP32 (Electrum)</ion-segment-button>
       </ion-segment>
     </ion-item>
 
-    <ion-item *ngIf="model.bip === 'BIP39'">
+    <ion-item *ngIf="input.segment === 'BIP39'">
       <ion-label stacked color="primary">Choose Security level</ion-label>
       <ion-select
         interface="popover"
-        [(ngModel)]="model.wordCount"
+        [(ngModel)]="input.wordCount"
         (ionChange)="changeForm()"
         >
         <ion-option value="12">Good (12 words)</ion-option>
@@ -49,25 +49,25 @@
       </ion-select>
     </ion-item>
 
-    <ion-item *ngIf="model.bip === 'BIP32'">
+    <ion-item *ngIf="input.segment === 'BIP32'">
       <ion-label stacked color="primary">Optional Phrase
         <span class="alternate-universe">ALTERNATE UNIVERSE</span>
       </ion-label>
       <ion-textarea
         type="text"
         name="passphrase"
-        [(ngModel)]="model.passphrase"
+        [(ngModel)]="input.passphrase"
         (ionChange)="changeForm()"
         >
       </ion-textarea>
     </ion-item>
 
-    <ion-item *ngIf="model.bip === 'BIP32'">
+    <ion-item *ngIf="input.segment === 'BIP32'">
       <ion-label stacked color="primary">Optional Account Number</ion-label>
       <ion-input
         type="number"
         name="accountNumber"
-        [(ngModel)]="model.accountNumber"
+        [(ngModel)]="input.accountNumber"
         (ionChange)="changeForm()"
         >
       </ion-input>
@@ -86,7 +86,7 @@
         hidden
         type="text"
         name="mnemonic"
-        [(ngModel)]="model.bip === 'BIP39' ? bip39Mnemonic : bip32Mnemonic"
+        [(ngModel)]="input.segment === 'BIP39' ? bip39Mnemonic : bip32Mnemonic"
         >
       </ion-input>
 
@@ -94,13 +94,13 @@
         ion-button
         color="footer"
         ngxClipboard
-        [cbContent]="model.bip === 'BIP39' ? bip39Mnemonic : bip32Mnemonic"
+        [cbContent]="input.segment === 'BIP39' ? bip39Mnemonic : bip32Mnemonic"
         (cbOnSuccess)="clickClipboard($event)"
         >
         <ion-icon name="clipboard" color="primary"></ion-icon>
       </button>
     </h1>
-    <p class="results">{{model.bip === 'BIP39' ? bip39Mnemonic : bip32Mnemonic}}</p>
+    <p class="results">{{input.segment === 'BIP39' ? bip39Mnemonic : bip32Mnemonic}}</p>
   </div>
 </ion-footer>
 

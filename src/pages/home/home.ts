@@ -9,20 +9,19 @@ import { PhraseInfoPopover } from '../phrase-info-popover/phrase-info-popover';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  model = {
-    // phrase: 'AN_unsafe^MONER0$brainWALLET',
-    // passphrase: '123',
-    phrase: '',
-    bip: 'BIP39',
+  input = {
+    phrase: 'AN_unsafe^MONER0$brainWALLET',
+    // phrase: '',
+    segment: 'BIP39',
     wordCount: 24,
-    passphrase: '',
+    passphrase: '123',
+    // passphrase: '',
     accountNumber: '',
   };
   bip39Mnemonic: string;
   bip32Mnemonic: string;
   mnemonic: string;
   isMobile = false;
-  clickPhraseInfo = () => this.popoverCtrl.create(PhraseInfoPopover).present();
 
   constructor(
     private platform: Platform,
@@ -36,11 +35,15 @@ export class HomePage {
     this.changeForm();
   }
 
+  clickPhraseInfo() {
+    this.popoverCtrl.create(PhraseInfoPopover).present();
+  }
+
   changeForm() {
     this.bip39Mnemonic = '';
-    if (this.model.phrase) {
-      this.bip39Mnemonic = this.cryptoSvc.buildBip39Mnemonic(this.model.phrase, +this.model.wordCount);
-      this.bip32Mnemonic = this.cryptoSvc.buildBip32(this.bip39Mnemonic, this.model.passphrase, +this.model.accountNumber);
+    if (this.input.phrase) {
+      this.bip39Mnemonic = this.cryptoSvc.buildBip39Mnemonic(this.input.phrase, +this.input.wordCount);
+      this.bip32Mnemonic = this.cryptoSvc.buildBip32(this.bip39Mnemonic, this.input.passphrase, +this.input.accountNumber);
     }
   }
 
