@@ -3,9 +3,8 @@ import * as jssha from 'jssha';
 import { entropyToMnemonic, mnemonicToSeedHex } from 'bip39';
 import * as bitcoin from 'bitcoinjs-lib';
 import * as base58check from 'base58check';
+import { monero_utils as mu, monero_wallet_utils as mwu } from 'mymonero-core-js';
 
-// import { cnUtil } from '../assets/js/cryptonote_utils.js';
-// import * as mnemonic from '../assets/js/mnemonic.js';
 // import { cnBase58 } from '../assets/js/cryptonote_base58.js';
 
 @Injectable() export class CryptoService {
@@ -18,11 +17,7 @@ import * as base58check from 'base58check';
     return entropyToMnemonic(hash);
   }
 
-  buildBip32(
-    mnemonic: string,
-    passphrase: string = '',
-    accountNumber: number,
-  ): any {
+  buildBip32( mnemonic: string, passphrase: string = '', accountNumber: number): any {
     accountNumber = accountNumber || 0;
     const derivation = `m/44'/128'/${accountNumber}'`;
     const seedHex = mnemonicToSeedHex(mnemonic, passphrase);
@@ -31,38 +26,40 @@ import * as base58check from 'base58check';
     const privateKeyWifEc = root.derivePath(derivation).keyPair.toWIF();
     const privateKeyEc = base58check.decode(privateKeyWifEc, 'hex').data.substr(0, 64);
 
-    // return this.buildMonero(privateKeyEc).mn;
+    return this.buildMonero(privateKeyEc).mn;
   }
 
-  // private buildMonero(hexSeed: string): any {
-  //   const privSpendKey = cnUtil().sc_reduce32(hexSeed);
-  //   const privViewKey = cnUtil().sc_reduce32(cnUtil().cn_fast_hash(privSpendKey));
-  //   const pubSpendKey = cnUtil().sec_key_to_pub(privSpendKey);
-  //   const pubViewKey = cnUtil().sec_key_to_pub(privViewKey);
-  //   const mn = mnemonic.mn_encode(privSpendKey);
-  //   const moneroAddress = this.buildMoneroAddress(pubSpendKey, pubViewKey);
+  private buildMonero(hexSeed: string): any {
+    const privSpendKey = mu.sc_reduce32(hexSeed);
+    const privViewKey = mu.sc_reduce32(mu.cn_fast_hash(privSpendKey));
+    const pubSpendKey = mu.sec_key_to_pub(privSpendKey);
+    const pubViewKey = mu.sec_key_to_pub(privViewKey);
+    const mn = mwu.MnemonicStringFromSeed(privSpendKey);
+    const moneroAddress = this.buildMoneroAddress(pubSpendKey, pubViewKey);
 
-  //   return {
-  //     privSpendKey,
-  //     privViewKey,
-  //     pubSpendKey,
-  //     pubViewKey,
-  //     mn,
-  //     moneroAddress,
-  //   };
-  // }
+    return {
+      privSpendKey,
+      privViewKey,
+      pubSpendKey,
+      pubViewKey,
+      mn,
+      moneroAddress,
+    };
+  }
 
-  // private buildMoneroAddress(
-  //   pubSpendKey: string,
-  //   pubViewKey: string,
-  //   netbyte = '12',
-  //   pid = '',
-  // ): string {
-  //   const preAddr = netbyte + pubSpendKey + pubViewKey + pid;
-  //   const hash = cnUtil().cn_fast_hash(preAddr);
-  //   const addrHex = preAddr + hash.slice(0,8);
+  private buildMoneroAddress(
+    pubSpendKey: string,
+    pubViewKey: string,
+    netbyte = '12',
+    pid = '',
+  ): string {
+    const preAddr = netbyte + pubSpendKey + pubViewKey + pid;
+    const hash = mu.cn_fast_hash(preAddr);
+    const addrHex = preAddr + hash.slice(0,8);
+    // const address = cnBase58.encode(addrHex);
+    // return cnBase58.encode(addrHex);
 
-  //   return cnBase58.encode(addrHex);
-  // }
+    return 'not implemented yet' || addrHex;
+  }
 
 }
